@@ -155,7 +155,7 @@ class decode_noaa:
             orb = Orbital(satellite, tle_file=tleFile)
 
         im = self.getImageA
-        im = im[:,85:995]
+        im = im[:, 85:995]
         oim = im[:]
 
         tdelta = int(im.shape[0]/16)
@@ -792,16 +792,21 @@ class decode_noaa:
 
             # determine if some data was found or not
             syncAdiff = np.abs(np.diff(self.__syncA) - (self.__syncCrudeSampRate*0.5))
-            minSyncAdiff = np.min([np.max(syncAdiff[i:i+constants.NOAA_DETECTCONSSYNCSNUM]) for i in range(len(syncAdiff)-constants.NOAA_DETECTCONSSYNCSNUM+1)])
+            syncAdiffTemp = np.array([np.max(syncAdiff[i:i+constants.NOAA_DETECTCONSSYNCSNUM]) for i in range(len(syncAdiff)-constants.NOAA_DETECTCONSSYNCSNUM+1)]) 
 
             syncBdiff = np.abs(np.diff(self.__syncB) - (self.__syncCrudeSampRate*0.5))
-            minSyncBdiff = np.min([np.max(syncBdiff[i:i+constants.NOAA_DETECTCONSSYNCSNUM]) for i in range(len(syncBdiff)-constants.NOAA_DETECTCONSSYNCSNUM+1)])
+            syncBdiffTemp = np.array([np.max(syncBdiff[i:i+constants.NOAA_DETECTCONSSYNCSNUM]) for i in range(len(syncBdiff)-constants.NOAA_DETECTCONSSYNCSNUM+1)])
 
-            if minSyncAdiff < constants.NOAA_DETECTMAXCHANGE or minSyncBdiff < constants.NOAA_DETECTMAXCHANGE:
-                logging.info('NOAA Signal was found')
-                self.__useful = 1
+            if syncAdiffTemp.size != 0 and syncBdiffTemp.size != 0:
+                minSyncAdiff = np.min(syncAdiffTemp)
+                minSyncBdiff = np.min(syncBdiffTemp)                
+                if minSyncAdiff < constants.NOAA_DETECTMAXCHANGE or minSyncBdiff < constants.NOAA_DETECTMAXCHANGE:
+                    logging.info('NOAA Signal was found')
+                    self.__useful = 1
+                else:
+                    logging.info('NOAA Signal was not found')
             else:
-                logging.info('NOAA Signal was not found')
+                pass
 
         return [self.__syncA, self.__syncB]
 

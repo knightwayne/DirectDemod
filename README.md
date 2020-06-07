@@ -1,4 +1,7 @@
 # DirectDemod
+
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/aerospaceresearch/DirectDemod/Vinay_dev)[![Documentation Status](https://readthedocs.org/projects/directdemod/badge/?version=vinay_dev)](http://directdemod.readthedocs.io/en/vinay_dev/?badge=vinay_dev)
+
 Direct Demodulation of Radio-signals
 
 ## Decoders
@@ -9,6 +12,7 @@ Direct Demodulation of Radio-signals
 To run: run 'python main.py IQ.wav'
 
 (using Docker)
+
 ```
 sudo docker build --tag direct_demod .
 sudo docker run --rm -it \
@@ -22,16 +26,14 @@ sudo docker run --rm -it \
 To install package with conda you should install anaconda or miniconda distribution first.
 See installation: https://docs.conda.io/en/latest/miniconda.html.
 
-When conda is installed, clone the repository and create conda a new conda environment. (To keep different versions of your packages of different project from interfering with each other)
+When conda is installed, clone the repository and create conda environment from `environment.yml` file.
 
 ```
 git clone https://github.com/aerospaceresearch/DirectDemod
 cd DirectDemod/
-conda create -n env_name
-conda activate env_name (or source activate env_name, if the previous doesn't work, In some environments, it might be deprecated)
-conda config --add channels conda-forge
-conda install --file requirements.txt
-
+conda env create -f environment.yml -n env_name
+conda activate env_name
+pip install -r requirements.txt
 ```
 
 You should add `directdemod` package to your `PYTHONPATH`. 
@@ -63,5 +65,3 @@ Please find the docs at: [directdemod.readthedocs.io](https://directdemod.readth
 
 ## Experiments
 The experiments performed to make design decisions are in the folder experiments, as jupyter notebooks. (click the binder badge for an online version)
-
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/aerospaceresearch/DirectDemod/Vinay_dev)[![Documentation Status](https://readthedocs.org/projects/directdemod/badge/?version=vinay_dev)](http://directdemod.readthedocs.io/en/vinay_dev/?badge=vinay_dev)
